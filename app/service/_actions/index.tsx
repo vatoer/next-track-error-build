@@ -57,3 +57,29 @@ export const bookService = async (serviceId: string) => {
     };
   }
 };
+
+export const getServices = async () => {
+  try {
+    const services = await dbAppointment.service.findMany({
+      where: {
+        categoryId: "paspor",
+      },
+      include: {
+        ServiceRequirement: true,
+      },
+    });
+
+    return {
+      type: "GET_SERVICES",
+      payload: services,
+      errors: false,
+    };
+  } catch (error) {
+    console.log(error);
+    return {
+      type: "GET_SERVICES",
+      payload: {},
+      errors: "UNKNOWN_ERROR",
+    };
+  }
+};
